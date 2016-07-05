@@ -10,7 +10,7 @@
  */
 angular
   .module('lifeWeeksApp', [
-  	'ngAnimate',
+  	/*'ngAnimate',
   	'ngTouch',
-  	'ui.bootstrap'
+  	'ui.bootstrap'*/
   	]);

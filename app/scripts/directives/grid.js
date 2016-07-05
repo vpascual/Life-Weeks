@@ -18,7 +18,11 @@ angular.module('lifeWeeksApp')
         		cell_height = height / 85;
 
 				var viz = d3.select(element[0]).select("#viz");
-				console.log(viz)
+				
+				var tooltip = viz.append("div")	
+			    .attr("class", "tooltip")				
+			    .style("opacity", 0);    		
+
 			  var svg = viz
 			  	.append("svg")
 			  		.attr("width", width)
@@ -49,11 +53,21 @@ angular.module('lifeWeeksApp')
 						.attr("y", 0)
 						.attr("width", cell_width)
 						.attr("height", cell_height)
-						//.attr("fill", "steelblue")
-						.on("mouseover", function(d) {
-							console.log(d)
-							console.log(d3.select(this.parentNode).data()[0])
-						})
+						.on("mouseover", function(d) {		
+							var week = d;
+							var year = d3.select(this.parentNode).data()[0];
+	            tooltip.transition()		
+	                .duration(200)		
+	                .style("opacity", .9);		
+	            tooltip.html("Year: " + year + "<br/>"  + week)	
+	                .style("left", (d3.event.pageX) + "px")		
+	                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+		        .on("mouseout", function(d) {		
+		            tooltip.transition()		
+		                .duration(500)		
+		                .style("opacity", 0);	
+		        });
       }
     };
   });
