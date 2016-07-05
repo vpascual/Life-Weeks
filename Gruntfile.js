@@ -28,6 +28,14 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    bumpup: {
+      options: {
+        dateformat: 'YYYY-MM-DD HH:mm',
+        normalize: true // Whether to normalize all JSON files to have the same version.
+      },
+        files: ['package.json', 'bower.json']
+    },
+
     // Project settings
     yeoman: appConfig,
 
