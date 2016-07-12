@@ -25,7 +25,7 @@ angular.module('lifeWeeksApp')
 
     		var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-    		var data = [
+    		var values = [
     		{
     			name: "Early years",
     			init: 0,
@@ -47,11 +47,21 @@ angular.module('lifeWeeksApp')
     			end: 18.3
     		}];
 
-    		data.forEach(function(d) {
+    		var data = [];    		
+
+    		values.forEach(function(d) {
     			d.weekInit = decimalYearToWeek(d.init);
     			d.weekEnd = decimalYearToWeek(d.end);
     		});
-    		console.log(data);
+
+    		values.forEach(function(d) {
+    			for (var i = d.weekInit; i<d.weekEnd; i++)
+    				data.push(d)
+    		})
+    		
+    		while (data.length < 85*52) {
+    			data.push({name: 'To be enjoyed!'})
+    		}
 
         var yearValue = function(d) { return Math.floor(d/52); };
         var weekValue = function(d) { return d%52; };
@@ -79,7 +89,7 @@ angular.module('lifeWeeksApp')
 			  		.attr("height", height);
 
 			  var week = svg.selectAll("rect")
-			  	.data(d3.range(0, 85 * 52))
+			  	.data(data)
 			  	.enter()
 			  	.append("rect")
 				  	.attr("class", "week")						
@@ -92,26 +102,24 @@ angular.module('lifeWeeksApp')
 							return Math.random() * height;
 						})
 						.attr("fill", function(d) {
-							var c = undefined;
-								for (var i = 0; i<data.length; i++) {
-									if (d >= data[i].weekInit && d < data[i].weekEnd) {
-										c = color(data[i].name);
-										break;
-									}
-								};
+							if (d.name == 'To be enjoyed!')
+								return 'lightgray';
 
-								return c === undefined ? 'lightgray' : c;
+							return color(d.name);
 						})
-						.on("mouseover", function(d) {		
-							var week = d;
-							var year = d3.select(this.parentNode).data()[0];
+						.style("opacity", function(d) {
+							return d.name == 'To be enjoyed!' ? 0.5 : 1;
+						})
+						.on("mouseover", function(d, i) {
 	            tooltip.transition()		
 	                .duration(200)		
-	                .style("opacity", .9);		
-	            tooltip.html("Age: " + yearValue(d) + "<br/>Week: "  + weekValue(d));
+	                .style("opacity", .9);
+	            var html = d.name + "<br>Age: " + yearValue(i) + "<br/>Week: "  + weekValue(i);
+	            //html = d3.select(this).attr("fill") == 'lightgray' ? '' : '<br>d.name'
+	            tooltip.html(html);
             })			
             .on("mousemove", function() {
-            	tooltip.style("top", (d3.event.pageY - 30) + "px").style("left", (d3.event.pageX + 10) + "px");
+            	tooltip.style("top", (d3.event.pageY - 30) + "px").style("left", (d3.event.pageX + 15) + "px");
             })		
 		        .on("mouseout", function(d) {		
 		            tooltip.transition()		
@@ -119,11 +127,11 @@ angular.module('lifeWeeksApp')
 		                .style("opacity", 0);	
 		        })
 		        .transition(t)
-		        	.attrTween("x", function(d) {
-		        		return d3.interpolateNumber(this.getAttribute("x"), x(weekValue(d)))
+		        	.attrTween("x", function(d, i) {
+		        		return d3.interpolateNumber(this.getAttribute("x"), x(weekValue(i)))
 		        	})
-		        	.attrTween("y", function(d) {
-		        		return d3.interpolateNumber(this.getAttribute("y"), y(yearValue(d)))
+		        	.attrTween("y", function(d, i) {
+		        		return d3.interpolateNumber(this.getAttribute("y"), y(yearValue(i)))
 		        	});
 	        
       }
