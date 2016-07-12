@@ -17,6 +17,42 @@ angular.module('lifeWeeksApp')
         		cell_width = width / 52,
         		cell_height = height / 85;
 
+        // this is to ease the data entering process
+        // it converts years expressed in decimals to weeks
+    		var decimalYearToWeek = d3.scaleLinear()
+    			.domain([0, 85])
+    			.rangeRound([0, 85*52]);
+
+    		var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+    		var data = [
+    		{
+    			name: "Early years",
+    			init: 0,
+    			end: 4
+    		},
+    		{
+    			name: "Elementary school",
+    			init: 4,
+    			end: 8
+    		},
+    		{
+    			name: "Middle school",
+    			init: 8,
+    			end: 14
+    		},
+    		{
+    			name: "High school",
+    			init: 14,
+    			end: 18.3
+    		}];
+
+    		data.forEach(function(d) {
+    			d.weekInit = decimalYearToWeek(d.init);
+    			d.weekEnd = decimalYearToWeek(d.end);
+    		});
+    		console.log(data);
+
         var yearValue = function(d) { return Math.floor(d/52); };
         var weekValue = function(d) { return d%52; };
 
@@ -54,6 +90,17 @@ angular.module('lifeWeeksApp')
 							})
 						.attr("y", function(d, i) { 
 							return Math.random() * height;
+						})
+						.attr("fill", function(d) {
+							var c = undefined;
+								for (var i = 0; i<data.length; i++) {
+									if (d >= data[i].weekInit && d < data[i].weekEnd) {
+										c = color(data[i].name);
+										break;
+									}
+								};
+
+								return c === undefined ? 'lightgray' : c;
 						})
 						.on("mouseover", function(d) {		
 							var week = d;

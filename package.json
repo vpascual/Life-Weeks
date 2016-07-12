@@ -1,6 +1,8 @@
 {
   "name": "lifeweeks",
   "private": true,
+  "version": "0.0.3-0",
+  "date": "2016-07-12 23:12",
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
     "grunt": "^0.4.5",

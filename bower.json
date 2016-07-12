@@ -1,6 +1,7 @@
 {
   "name": "life-weeks",
-  "version": "0.0.1-0",
+  "version": "0.0.3-0",
+  "date": "2016-07-12 23:12",
   "dependencies": {
     "angular": "^1.4.0",
     "bootstrap": "^3.2.0",

@@ -86,7 +86,7 @@ body {
 .week {
   stroke: white;
   stroke-width: 1px;
-  fill: lightgray;
+ /* fill: lightgray;*/
 }
 
 .week:hover {
