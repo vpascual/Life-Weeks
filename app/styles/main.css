@@ -96,11 +96,12 @@ body {
 div.tooltip { 
     position: absolute;     
     text-align: center;     
-    width: 60px;          
-    height: 28px;         
+    width: 120px;          
+    height: 50px;         
     padding: 2px;       
     font: 12px sans-serif;    
     border: 0px;    
     border-radius: 2px;     
-    pointer-events: none;     
+    pointer-events: none;
+    background-color: white;
 }
