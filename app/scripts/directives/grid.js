@@ -17,6 +17,20 @@ angular.module('lifeWeeksApp')
         		cell_width = width / 52,
         		cell_height = height / 85;
 
+        var yearValue = function(d) { return Math.floor(d/52); };
+        var weekValue = function(d) { return d%52; };
+
+        var t = d3.transition()
+    			.duration(4000);
+
+    		var x = d3.scaleLinear()
+    			.domain([0, 52])
+    			.range([0, width]);
+
+    		var y = d3.scaleLinear()
+    			.domain([0, 85])
+    			.range([0, height]);
+
 				var viz = d3.select(element[0]).select("#viz");
 				
 				var tooltip = viz.append("div")	
@@ -28,38 +42,26 @@ angular.module('lifeWeeksApp')
 			  		.attr("width", width)
 			  		.attr("height", height);
 
-			  console.log(svg)
-			  console.log(d3.select("#viz"))
-
-			  var year = svg.selectAll("g")
-			  	.data(d3.range(1, 85))
+			  var week = svg.selectAll("rect")
+			  	.data(d3.range(0, 85 * 52))
 			  	.enter()
-			  	.append("g")
-			  		.attr("class", "year")
-			  		.attr("transform", function(d, i) {
-			  			console.log(cell_height)
-			  			return "translate(0, " + cell_height * i + ")"
-			  		});
-
-
-				year.selectAll("rect")
-					.data(d3.range(1, 52))
-					.enter()
-					.append("rect")
-						.attr("class", "week")
-						.attr("x", function(d, i) { 
-							return i*cell_width;
-						})
-						.attr("y", 0)
+			  	.append("rect")
+				  	.attr("class", "week")						
 						.attr("width", cell_width)
 						.attr("height", cell_height)
+						.attr("x", function(d, i) { 
+								return Math.random() * width;
+							})
+						.attr("y", function(d, i) { 
+							return Math.random() * height;
+						})
 						.on("mouseover", function(d) {		
 							var week = d;
 							var year = d3.select(this.parentNode).data()[0];
 	            tooltip.transition()		
 	                .duration(200)		
 	                .style("opacity", .9);		
-	            tooltip.html("Age: " + year + "<br/>"  + week);
+	            tooltip.html("Age: " + yearValue(d) + "<br/>Week: "  + weekValue(d));
             })			
             .on("mousemove", function() {
             	tooltip.style("top", (d3.event.pageY - 30) + "px").style("left", (d3.event.pageX + 10) + "px");
@@ -68,8 +70,14 @@ angular.module('lifeWeeksApp')
 		            tooltip.transition()		
 		                .duration(500)		
 		                .style("opacity", 0);	
-		        });
-
+		        })
+		        .transition(t)
+		        	.attrTween("x", function(d) {
+		        		return d3.interpolateNumber(this.getAttribute("x"), x(weekValue(d)))
+		        	})
+		        	.attrTween("y", function(d) {
+		        		return d3.interpolateNumber(this.getAttribute("y"), y(yearValue(d)))
+		        	});
 	        
       }
     };
