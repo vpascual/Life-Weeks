@@ -34,17 +34,42 @@ angular.module('lifeWeeksApp')
     		{
     			name: "Elementary school",
     			init: 4,
-    			end: 8
-    		},
-    		{
-    			name: "Middle school",
-    			init: 8,
     			end: 14
     		},
     		{
-    			name: "High school",
+    			name: "Middle school",
     			init: 14,
-    			end: 18.3
+    			end: 18
+    		},
+    		{
+    			name: "High school",
+    			init: 18,
+    			end: 23.25
+    		},
+    		{
+    			name: "Internship at Universitat Pompeu Fabra",
+    			init: 23.25,
+    			end: 24.75
+    		},
+    		{
+    			name: "PhD",
+    			init: 24.75,
+    			end: 28.75
+    		},
+    		{
+    			name: "Work @ Bestiario",
+    			init: 28.75,
+    			end: 31.75
+    		},
+    		{
+    			name: "Sabbatical",
+    			init: 31.75,
+    			end: 32.25
+    		},
+    		{
+    			name: "Freelance",
+    			init: 32.25,
+    			end: 34.5
     		}];
 
     		var data = [];    		
