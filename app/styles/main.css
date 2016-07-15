@@ -88,20 +88,32 @@ body {
   stroke-width: 1px;
  /* fill: lightgray;*/
 }
-
+/*
 .week:hover {
   fill: gray;
+}*/
+
+div#viz {
+  display: inline-block;
+  text-align: center;
 }
 
 div.tooltip { 
     position: absolute;     
-    text-align: center;     
-    width: 120px;          
-    height: 50px;         
-    padding: 2px;       
+    text-align: center;
+    display: inline-block;
+    padding: 6px;       
     font: 12px sans-serif;    
     border: 0px;    
     border-radius: 2px;     
     pointer-events: none;
     background-color: white;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+path.domain {
+  opacity: 0;
 }

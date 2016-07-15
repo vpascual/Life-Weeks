@@ -17,6 +17,14 @@ angular.module('lifeWeeksApp')
         		cell_width = width / 52,
         		cell_height = height / 85;
 
+        function daysBetweenDates(d1, d2) {
+        	console.log("daysBetweenDates")
+				  var diffDays, oneDay;
+				  oneDay = 24 * 60 * 60 * 1000;
+				  diffDays = (d2 - Date.parse(d1)) / oneDay;
+				  return diffDays;
+				};
+
         // this is to ease the data entering process
         // it converts years expressed in decimals to weeks
     		var decimalYearToWeek = d3.scaleLinear()
@@ -34,42 +42,77 @@ angular.module('lifeWeeksApp')
     		{
     			name: "Elementary school",
     			init: 4,
-    			end: 14
+    			end: 6
     		},
     		{
     			name: "Middle school",
-    			init: 14,
-    			end: 18
+    			init: 6,
+    			end: 14
     		},
     		{
     			name: "High school",
-    			init: 18,
-    			end: 23.25
+    			init: 14,
+    			end: 17.9
     		},
     		{
-    			name: "Internship at Universitat Pompeu Fabra",
-    			init: 23.25,
-    			end: 24.75
+    			name: "Computer Engineering @ UPF",
+    			init: 17.9,
+    			end: 22.8,
+    			url: "https://www.upf.edu"
+    		},
+    		{
+    			name: "Internship at UPF",
+    			init: 22.8,
+    			end: 23.6,
+    			url: "https://www.upf.edu"
     		},
     		{
     			name: "PhD",
-    			init: 24.75,
-    			end: 28.75
+    			init: 23.6,
+    			end: 28.75,
+    			url: "http://tesisenxarxa.net/handle/10803/7571"
+    		},
+    		{
+    			name: "PhD + Work @ Bestiario",
+    			init: 28.75,
+    			end: 29.85
     		},
     		{
     			name: "Work @ Bestiario",
-    			init: 28.75,
-    			end: 31.75
+    			init: 29.85,
+    			end: 31.85,
+    			url: "http://www.bestiario.org"
     		},
     		{
     			name: "Sabbatical",
-    			init: 31.75,
-    			end: 32.25
+    			init: 31.85,
+    			end: 32.35,
+    			url: "http://myway.vpascual.org"
     		},
     		{
     			name: "Freelance",
-    			init: 32.25,
-    			end: 34.5
+    			init: 32.35,
+    			end: 32.6,
+    			url: "http://www.vpascual.org"
+    		},
+    		{
+    			name: "Data Scientist @ Mobile Media Content & SIRIS Academic",
+    			init: 32.35,
+    			end: 33.5,
+    			url: "http://www.mobilemediacontent.com",
+    			url2: "http://www.sirisacademic.com"
+    		},
+    		{
+    			name: "Data Scientist @ SIRIS Academic",
+    			init: 32.35,
+    			end: 34.6,
+    			url: "http://www.sirisacademic.com"
+    		},
+    		{
+    			name: "Freelance",
+    			init: 34.6,
+    			end: daysBetweenDates('Oct 15, 1981 00:00:00', new Date()) / 365,
+    			url: "http://www.vpascual.org"
     		}];
 
     		var data = [];    		
@@ -100,7 +143,7 @@ angular.module('lifeWeeksApp')
 
     		var y = d3.scaleLinear()
     			.domain([0, 85])
-    			.range([0, height]);
+    			.range([0, height]);  			
 
 				var viz = d3.select(element[0]).select("#viz");
 				
@@ -111,7 +154,21 @@ angular.module('lifeWeeksApp')
 			  var svg = viz
 			  	.append("svg")
 			  		.attr("width", width)
-			  		.attr("height", height);
+			  		.attr("height", height)
+			  		.append("g")
+			  			.attr("transform", "translate(20,0)");
+
+	  		svg.append("g")
+			    .attr("class", "axis")
+			    //.attr("transform", "translate(0," + height + ")")
+			    .call(d3.axisLeft(y));
+
+			  function setColor(d) {
+			  	if (d.name == 'To be enjoyed!')
+								return 'lightgray';
+
+							return color(d.name);
+			  }
 
 			  var week = svg.selectAll("rect")
 			  	.data(data)
@@ -127,10 +184,7 @@ angular.module('lifeWeeksApp')
 							return Math.random() * height;
 						})
 						.attr("fill", function(d) {
-							if (d.name == 'To be enjoyed!')
-								return 'lightgray';
-
-							return color(d.name);
+							return setColor(d);
 						})
 						.style("opacity", function(d) {
 							return d.name == 'To be enjoyed!' ? 0.5 : 1;
@@ -142,6 +196,14 @@ angular.module('lifeWeeksApp')
 	            var html = d.name + "<br>Age: " + yearValue(i) + "<br/>Week: "  + weekValue(i);
 	            //html = d3.select(this).attr("fill") == 'lightgray' ? '' : '<br>d.name'
 	            tooltip.html(html);
+
+	            var currentColor = d3.select(this).attr("fill");	            
+	            d3.select(this).attr("fill", function(d) { 
+	            	return d3.color(currentColor).darker(); 
+	            });
+
+	            if (d.url != undefined)
+	            	d3.select(this).style("cursor", "hand");
             })			
             .on("mousemove", function() {
             	tooltip.style("top", (d3.event.pageY - 30) + "px").style("left", (d3.event.pageX + 15) + "px");
@@ -149,7 +211,18 @@ angular.module('lifeWeeksApp')
 		        .on("mouseout", function(d) {		
 		            tooltip.transition()		
 		                .duration(500)		
-		                .style("opacity", 0);	
+		                .style("opacity", 0);
+
+		            d3.select(this).attr("fill", function(d) { return setColor(d); })
+		        })
+		        .on("click", function(d) {
+		        	if (d.url != undefined) {
+		        		if (d.url2 != undefined) {
+		        			var url = Math.random() < 0.5 ? d.url : d.url2;
+		        			window.open(url)
+		        		} else
+		        			window.open(d.url)
+		        	}
 		        })
 		        .transition(t)
 		        	.attrTween("x", function(d, i) {
