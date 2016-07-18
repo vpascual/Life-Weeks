@@ -6,4 +6,6 @@ Each row represents a year in my life, out of the expected 85 years I'm meant to
 
 This project has been developed using [AngularJS v1.4](https://angularjs.org) and [D3 v4](https://d3js.org).
 
+The source code of this project can be found in [Github](https://github.com/vpascual/Life-Weeks)
+
 ![My Life in Weeks](mylifeinweeks.png)
