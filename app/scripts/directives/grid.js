@@ -18,8 +18,10 @@ angular.module('lifeWeeksApp')
             scope.$watch('data', function() {
                 update();
             })
-            var width = 600,
-        		height = 800,
+
+            var margin = {top: 20, right: 10, bottom: 10, left: 20};
+            var width = 600 - margin.left - margin.right,
+                height = 800 - margin.top - margin.bottom,
         		cell_width = width / 52,
         		cell_height = height / 85;                
 
@@ -38,18 +40,18 @@ angular.module('lifeWeeksApp')
     			.domain([0, 85])
     			.range([0, height]);  			
 
-				var viz = d3.select(element[0]).select("#viz");
-				
-				var tooltip = viz.append("div")	
+			var viz = d3.select(element[0]).select("#viz");
+			
+			var tooltip = viz.append("div")	
 			    .attr("class", "tooltip")				
 			    .style("opacity", 0);    		
 
-			  var svg = viz
-			  	.append("svg")
-			  		.attr("width", width + 50)
-			  		.attr("height", height + 10)
-			  		.append("g")
-			  			.attr("transform", "translate(20,0)");
+            var svg = viz
+            	.append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	  		svg.append("g")
 			    .attr("class", "axis")
