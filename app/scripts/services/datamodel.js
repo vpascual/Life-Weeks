@@ -10,7 +10,6 @@
 angular.module('lifeWeeksApp')
   .service('DataModel', [function () {
   	function daysBetweenDates(d1, d2) {
-	    console.log("daysBetweenDates")
 	    var diffDays, oneDay;
 	    oneDay = 24 * 60 * 60 * 1000;
 	    diffDays = (d2 - Date.parse(d1)) / oneDay;
