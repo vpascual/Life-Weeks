@@ -8,7 +8,6 @@
  * Controller of the lifeWeeksApp
  */
 angular.module('lifeWeeksApp')
-  .controller('MainCtrl', function () {
-
-  	
-  });
+  .controller('MainCtrl', ['$scope', 'DataModel', function($scope, DataModel) {
+  			$scope.data = DataModel.getData();
+  }]);
