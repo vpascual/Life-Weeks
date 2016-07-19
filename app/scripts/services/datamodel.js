@@ -46,12 +46,12 @@ angular.module('lifeWeeksApp')
     		{
     			name: "Computer Engineering @ UPF",
     			init: 17.9,
-    			end: 22.8,
+    			end: 22.1,
     			url: "https://www.upf.edu"
     		},
     		{
     			name: "Internship at UPF",
-    			init: 22.8,
+    			init: 22.1,
     			end: 23.6,
     			url: "https://www.upf.edu"
     		},
