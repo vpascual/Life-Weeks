@@ -11,7 +11,7 @@ angular.module('lifeWeeksApp')
   .service('DataService', ['$http', function ($http) {
     return {
     	getData: function() {
-    		return $http.get('/data/mylife.json');
+    		return $http.get('./data/mylife.json');
     	}
     }
   }]);
