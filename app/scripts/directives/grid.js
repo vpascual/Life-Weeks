@@ -16,7 +16,8 @@ angular.module('lifeWeeksApp')
       },
       link: function postLink(scope, element, attrs) {
             scope.$watch('data', function() {
-                update();
+                if (scope.data != undefined)
+                    update();
             })
 
             var margin = {top: 20, right: 10, bottom: 10, left: 20};

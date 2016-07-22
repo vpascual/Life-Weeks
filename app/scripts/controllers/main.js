@@ -9,5 +9,8 @@
  */
 angular.module('lifeWeeksApp')
   .controller('MainCtrl', ['$scope', 'DataModel', function($scope, DataModel) {
-  			$scope.data = DataModel.getData();
+			// when the DataModel has received and processed the data, it should be added to the scope
+			DataModel.getData().then(function(response) {
+				$scope.data = response;
+			})
   }]);
