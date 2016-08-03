@@ -1,13 +1,14 @@
 {
   "name": "life-weeks",
-  "version": "1.1.0",
-  "date": "2016-07-22 12:14",
+  "version": "1.1.1",
+  "date": "2016-08-03 17:02",
   "dependencies": {
     "angular": "^1.4.0",
     "bootstrap": "^3.2.0",
     "d3": "^4.1.0",
     "d3-scale": "^1.0.1",
-    "d3-scale-chromatic": "https://github.com/d3/d3-scale-chromatic.git#^1.0.1"
+    "d3-scale-chromatic": "https://github.com/d3/d3-scale-chromatic.git#^1.0.1",
+    "ng-device-detector": "^3.0.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
