@@ -10,6 +10,7 @@
  */
 angular
   .module('lifeWeeksApp', [
+  	"ng.deviceDetector"
   	/*'ngAnimate',
   	'ngTouch',
   	'ui.bootstrap'*/

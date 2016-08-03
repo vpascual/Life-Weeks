@@ -7,7 +7,7 @@
  * # grid
  */
 angular.module('lifeWeeksApp')
-  .directive('grid', function () {
+  .directive('grid', ['deviceDetector', function (deviceDetector) {
     return {
       template: '<div id="viz"></div>',
       restrict: 'E',
@@ -76,11 +76,11 @@ angular.module('lifeWeeksApp')
     				  	.attr("class", "week")						
     					.attr("width", cell_width)
     					.attr("height", cell_height)
-    					.attr("x", function(d, i) { 
-    							return Math.random() * width;
-    						})
+					    .attr("x", function(d, i) { 
+							return deviceDetector.isMobile() ? x(weekValue(i)) : Math.random() * width;;
+						})
     					.attr("y", function(d, i) { 
-    						return Math.random() * height;
+                            return deviceDetector.isMobile() ? y(yearValue(i)) : Math.random() * height;
     					})
     					.attr("fill", function(d) {
     						return setColor(d);
@@ -125,13 +125,13 @@ angular.module('lifeWeeksApp')
         		        })
         		        .transition(t)
         		        	.attrTween("x", function(d, i) {
-        		        		return d3.interpolateNumber(this.getAttribute("x"), x(weekValue(i)))
+                                return deviceDetector.isMobile() ? d3.select(this).attr("x") : d3.interpolateNumber(this.getAttribute("x"), x(weekValue(i)));
         		        	})
         		        	.attrTween("y", function(d, i) {
-        		        		return d3.interpolateNumber(this.getAttribute("y"), y(yearValue(i)))
+        		        		return deviceDetector.isMobile() ? d3.select(this).attr("y") : d3.interpolateNumber(this.getAttribute("y"), y(yearValue(i)));
         		        	});
             }
 	        
       }
     };
-  });
+}]);
